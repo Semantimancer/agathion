@@ -10,15 +10,20 @@ import Text.HTML.Scalpel
 
 data Tweet = T { tweet :: String, author :: String }
            | Discard
-  deriving (Show, Eq, Ord)
+  deriving (Read, Show, Eq, Ord)
 
 tweetToString :: Maybe Tweet -> String
 tweetToString Nothing = ""
 tweetToString (Just t) = concat [author t,": ",tweet t,"\n\n"]
 
-tweetWidget :: Maybe Tweet -> Widget n
-tweetWidget Nothing = withAttr "red" $ str "No tweets found!"
-tweetWidget (Just t) = hBox [withAttr "red" $ str $ author t,str $ " - ",withAttr "blue" $ str $ (tweet t)++"\n\n"]
+tweetWidget :: [Tweet] -> Widget n
+tweetWidget [] = withAttr "red" $ str "No tweets found!"
+tweetWidget xs = vBox $ map (\t -> hBox [withAttr "red" $ str $ author t,str $ " - ",withAttr "blue" $ str $ (tweet t)++"\n"]) xs
+
+getTweets :: [String] -> IO [Tweet]
+getTweets xs = do
+  ts <- mapM getTweet xs
+  return $ concatMap (\x -> if x==Nothing then [] else let (Just x') = x in [x']) ts
 
 getTweet :: String -> IO (Maybe Tweet)
 getTweet str = do

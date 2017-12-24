@@ -8,7 +8,7 @@ import Data.Char (toLower)
 import Text.HTML.Scalpel
 
 data Weather = W { high :: String, low :: String, current :: String, conditions :: String }
-  deriving (Show, Eq, Ord)
+  deriving (Show, Read, Eq, Ord)
 
 weatherStringLine :: Maybe Weather -> String
 weatherStringLine Nothing = "Weather data not found!"

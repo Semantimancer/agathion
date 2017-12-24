@@ -11,7 +11,7 @@ import Data.List.Split (splitOn)
 type Repo = (String,[Commit])
 
 data Commit = C { commitID :: String, commitDate :: String, commitText :: String }
-  deriving (Show, Eq, Ord)
+  deriving (Read, Show, Eq, Ord)
 
 stringToCommits :: String -> [Commit]
 stringToCommits str = [ x | Just x <- map stringToCommit $ splitOn "commit" str]
