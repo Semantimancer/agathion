@@ -45,7 +45,6 @@ stringToOption s = case fmap (drop 1) . break (=='=') $ s of
   ("location",l)  -> [OptionWeather l]
   _               -> []
 
-
 data Resource = Left | Right
   deriving (Show, Eq, Ord)
 
@@ -72,9 +71,6 @@ makeBox Nothing = padBottom (Pad 1) . padLeftRight 2 . withBorderStyle ascii . b
 
 left :: Widget n -> Widget n
 left = flip (<+>) (fill ' ')
-
-right :: Widget n -> Widget n
-right = (<+>) (fill ' ')
 
 bottom :: Widget n -> Widget n
 bottom = flip (<=>) (fill ' ')
