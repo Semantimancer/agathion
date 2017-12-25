@@ -18,7 +18,7 @@ tweetToString (Just t) = concat [author t,": ",tweet t,"\n\n"]
 
 tweetWidget :: [Tweet] -> Widget n
 tweetWidget [] = withAttr "red" $ str "No tweets found!"
-tweetWidget xs = vBox $ map (\t -> hBox [withAttr "red" $ str $ author t,str $ " - ",withAttr "blue" $ str $ (tweet t)++"\n"]) xs
+tweetWidget xs = vBox $ concatMap (\t -> [hBox [withAttr "red" $ str $ author t,str $ " - ",withAttr "blue" $ str $ (tweet t)],str " "]) xs
 
 getTweets :: [String] -> IO [Tweet]
 getTweets xs = do
