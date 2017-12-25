@@ -4,22 +4,19 @@ module Agathion.Weather where
 import Brick
 import Brick.AttrMap
 import Brick.Types
-import Data.Char (toLower)
 import Text.HTML.Scalpel
 
 data Weather = W { high :: String, low :: String, current :: String, conditions :: String }
   deriving (Show, Read, Eq, Ord)
 
-weatherStringLine :: Maybe Weather -> String
-weatherStringLine Nothing = "Weather data not found!"
-weatherStringLine (Just w) = concat ["It is ",current w,"\176 and ",map toLower $ conditions w," right now."]
-
 weatherWidget :: Maybe Weather -> Widget n
 weatherWidget Nothing = withAttr "red" $ str "Weather data not found!"
-weatherWidget w'@(Just w) = vBox [str $ weatherStringLine w'
-                                 ,str "\n"
-                                 ,hBox [withAttr "red" $ str "High: ",str $ high w]
-                                 ,hBox [withAttr "red" $ str "Low: ",str $ low w]]
+weatherWidget w'@(Just w) = vBox $ map makeLine [("Current: ",(current w)++"\176")
+                                                ,("Conditions: ",conditions w)
+                                                ,(" "," ")
+                                                ,("Today's High: ",high w)
+                                                ,("Today's Low: ",low w)]
+  where makeLine (x,y) = hBox [withAttr "red" $ str x,str y]
 
 getWUnderground :: String -> IO (Maybe Weather)
 getWUnderground str = scrapeURL ("https://www.wunderground.com/weather/"++str) wunderground

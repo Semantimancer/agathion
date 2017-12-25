@@ -58,8 +58,7 @@ drawUI st = [padTop (Pad 1) $ vBox [(boxDiag <+> boxWeather),(boxTwitter <=> (bo
   where boxDiag = let titleBar = hBox [withAttr "blue" $ str $ host st,str $ " ("++kernel st++", "++bits st++"-bit)"]
                       box = padBottom (Pad 1) . padLeftRight 2 . withBorderStyle ascii . borderWithLabel titleBar . padAll 1
                   in vLimit 15 $ box $ hBox [fill ' ',str $ drives st,fill ' ',str $ ram st,fill ' ']
-        boxWeather = let i = textWidth $ weatherStringLine $ weather st
-                     in hLimit (i+(i `div` 2)) $ vLimit 15 $ makeBox (Just "Weather") . bottom $ weatherWidget $ weather st
+        boxWeather = hLimit 50 $ vLimit 15 $ makeBox (Just "Weather") . bottom $ weatherWidget $ weather st
         boxTwitter = makeBox (Just "Twitter") . left $ tweetWidget $ tweets st
         boxRepoDay = let reposToday = map (\(t,cs) -> (t,filter (commitToday (time st) (timeZone st)) cs)) $ repos st
                      in makeBox (Just "Today") . left $ vBox $ map (\r -> (repoTitle r) <=> (commitData True $ snd r)) $ reposToday
