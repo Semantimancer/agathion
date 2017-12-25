@@ -89,8 +89,7 @@ handleEvent st (VtyEvent ev) = case ev of
   EvKey (KChar 'q') []  -> halt st
   EvKey (KChar 'R') []  -> suspendAndResume $ refreshState st
   EvKey (KChar 'r') []  -> suspendAndResume $ updateState st
-  EvKey (KChar 'u') []  -> suspendAndResume $ updateState st
-  _                     -> suspendAndResume $ updateState st
+  _                     -> suspendAndResume $ refreshState st
 handleEvent st _ = continue st
 
 refreshState :: State -> IO State
@@ -193,7 +192,7 @@ main = do
   chan <- newBChan 1
   forkIO $ forever $ do
     writeBChan chan Step
-    threadDelay 60000000 --One minute
+    threadDelay 600000000 --Ten minutes
   finalState <- customMain (mkVty defaultConfig) (Just chan) app initialState
 
   mapM_ (\x -> do
