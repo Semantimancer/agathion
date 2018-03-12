@@ -63,7 +63,7 @@ drawUI st = [padTop (Pad 1) $ vBox [(boxDiag <+> boxWeather),(boxTwitter <=> (bo
         boxRepoDay = let reposToday = map (\(t,cs) -> (t,filter (commitToday (time st) (timeZone st)) cs)) $ repos st
                      in makeBox (Just "Today") . left $ vBox $ map (\r -> (repoTitle r) <=> (commitData True $ snd r)) $ reposToday
         boxRepoWeek = makeBox (Just "This Week") . left $ vBox $ 
-                        map (\r -> (repoTitle r) <=> (commitData True $ snd r)) $ repos st
+                        map (\r -> (repoTitle r) <=> (commitData False $ snd r)) $ repos st
         boxImg = let i = textWidth $ (img st)!!0
                  in hLimit (i+(i `div` 2)) $ makeBox Nothing $ vBox $ [hCenter $ hBox [withAttr "red" $ str "Uptime: ",str $ uptime st]
                                                                       ,fill ' '
