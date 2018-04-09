@@ -54,5 +54,6 @@ commitToStringText :: Commit -> String
 commitToStringText c = concat [" - ",commitText c]
 
 commitToday :: UTCTime -> TimeZone -> Commit -> Bool
-commitToday time zone c = (take 2 $ drop 8 $ show $ utcToLocalTime zone time)==(take 2 $ drop 8 $ commitDate c)
-
+commitToday time zone c = (f $ take 2 $ drop 8 $ show $ utcToLocalTime zone time)==(f $ take 2 $ drop 8 $ commitDate c)
+  where f ('0':x) = filter (`elem` ['0'..'9']) x
+        f x = filter (`elem` ['0'..'9']) x
