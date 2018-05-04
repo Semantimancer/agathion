@@ -132,7 +132,7 @@ updateState s = do
                   return (read f :: Maybe Weather)
                 else return Nothing
 
-  newUptime <- readProcess "uptime" ["-p"] ""
+  newUptime <- readProcess "uptime" [] ""
   newHostname <- readProcess "hostname" [] ""
   newKernel <- readProcess "uname" ["-r"] ""
   newBits <- readProcess "uname" ["-m"] ""
@@ -142,7 +142,7 @@ updateState s = do
   newZone <- getTimeZone newTime
 
   return $ s { weather = newWeather
-             , uptime = drop 3 newUptime
+             , uptime = newUptime
              , host = init newHostname
              , kernel = init newKernel
              , bits = init newBits
